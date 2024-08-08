@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cajero Automático</title>
+</head>
+<body>
+    <script>
+        
+        const clientes = [
+            {
+                nombre: "Juan Perez",
+                id: "juanp",
+                clave: "1234",
+                saldo: 1000
+            },
+            {
+                nombre: "Maria Gomez",
+                id: "mariag",
+                clave: "5678",
+                saldo: 500
+            },
+            {
+                nombre: "Carlos Sanchez",
+                id: "carloss",
+                clave: "abcd",
+                saldo: 750
+            }
+        ];
+
+        function encontrarCliente(id, clave) {
+            return clientes.find(cliente => cliente.id === id && cliente.clave === clave);
+        }
+
+        function mostrarMenu(cliente) {
+            let opcion = 0;
+
+            while (opcion !== 4) {
+                opcion = parseInt(prompt(`Bienvenido ${cliente.nombre}, seleccione una opción:
+                1. Ver saldo
+                2. Realizar giro
+                3. Realizar depósito
+                4. Salir`));
+
+                switch (opcion) {
+                    case 1:
+                        alert(`Tu saldo actual es: $${cliente.saldo}`);
+                        break;
+                    case 2:
+                        realizarGiro(cliente);
+                        break;
+                    case 3:
+                        realizarDeposito(cliente);
+                        break;
+                    case 4:
+                        alert("Gracias por utilizar nuestros servicios. ¡Hasta luego!");
+                        break;
+                    default:
+                        alert("Opción no válida. Por favor, intente de nuevo.");
+                        break;
+                }
+            }
+        }
+
+        function realizarGiro(cliente) {
+            const monto = parseFloat(prompt(`Tu saldo actual es: $${cliente.saldo}. ¿Cuánto deseas girar?`));
+            if (monto > cliente.saldo) {
+                alert("No puedes girar más de tu saldo disponible.");
+            } else {
+                cliente.saldo -= monto;
+                alert(`Has girado $${monto}. Tu nuevo saldo es: $${cliente.saldo}.`);
+            }
+        }
+
+        function realizarDeposito(cliente) {
+            const monto = parseFloat(prompt(`Tu saldo actual es: $${cliente.saldo}. ¿Cuánto deseas depositar?`));
+            cliente.saldo += monto;
+            alert(`Has depositado $${monto}. Tu nuevo saldo es: $${cliente.saldo}.`);
+        }
+
+        function iniciarCajero() {
+            const id = prompt("Ingrese su identificador:");
+            const clave = prompt("Ingrese su clave:");
+
+            const cliente = encontrarCliente(id, clave);
+
+            if (cliente) {
+                mostrarMenu(cliente);
+            } else {
+                alert("Identificador o clave incorrectos. Intente de nuevo.");
+            }
+        }
+
+        
+        iniciarCajero();
+    </script>
+</body>
+</html>
